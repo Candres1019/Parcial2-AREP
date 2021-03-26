@@ -24,7 +24,7 @@ Adicionalmente se recomienda tener descargado los siguientes programas:
 
 ### Calidad del código
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6cbbe30255fe4ac4a3d48264e5b6c25a)](https://www.codacy.com/gh/Candres1019/TallerArquitecturaSegura/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Candres1019/TallerArquitecturaSegura&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/051d619e4c44444983b72a787b675a66)](https://www.codacy.com/gh/Candres1019/Parcial2-AREP/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Candres1019/Parcial2-AREP&amp;utm_campaign=Badge_Grade)
 
 ### Integración Continua
 
