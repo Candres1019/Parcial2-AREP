@@ -28,97 +28,79 @@ Adicionalmente se recomienda tener descargado los siguientes programas:
 
 ### Integración Continua
 
-[![CircleCI](https://circleci.com/gh/Candres1019/TallerArquitecturaSegura.svg?style=svg)](https://app.circleci.com/pipelines/github/Candres1019/TallerArquitecturaSegura)
+[![CircleCI](https://circleci.com/gh/Candres1019/Parcial2-AREP.svg?style=svg)](https://app.circleci.com/pipelines/github/Candres1019/Parcial2-AREP)
 
-### Arquitectura
+### Imágenes del funcionamiento
 
-La arquitectura del aplicativo se basa en el siguiente modelo:
+> Aws EC2
+> 
+> Comportamiento con valores válidos:
+> 
+> ![](./Img/acosEC2.png)
+> 
+> Comportamiento con valores no numéricos:
+> 
+> ![](./Img/acosEC21.png)
+> 
+> Comportamiento con valores fuera del rango:
+> 
+> ![](./Img/acosEC22.png)
 
-![](./Img/Arquitectura.png)
+### Instalación en EC2
 
-La arquitectura de la seguridad de este aplicativo se basa esencialmente en el uso de certificados web, con el cual sé
-mantiene un control estricto de los servicios a los cuales se puede acceder de manera local y remota, esto permite tener
-un control sobre que servicios se están ofreciendo y consumiendo internamente, además de poder guardar los servicios que
-no queremos que sean expuestos, como se puede visualizar en el diagrama de la arquitectura cada servicio ofrecido ase
-uso de sus propios "KeyStore" y "TrustStore".
+Nota: Inicialmente debe tener una máquina EC2 corriendo en AWS, para facilidad de la instalación
+se tiene una imagen en DockerHub con el despliegue, haga click [aquí](https://hub.docker.com/repository/docker/candres1019/dockerparcialacos) para ir a la imagen
 
-En él [directorio](./keystores) se encuentran almacenados los certificados y los TrustStore de los dos servicios
-ofrecidos, la manera más óptima y más fácil de ampliar esta arquitectura es haciendo uso de los mismos, para agregar un
-nuevo servicio, se crearían "KeyStore" y "TrustStore" nuevos para cada servicio y agregando los certificados que
-correspondan a cada uno de ellos.
+* Si va a usar la imagen del proyecto desplegada en DockerHub solamente debe ejecutar el siguiente comando:
 
-Por último y como segundo nivel de seguridad se tiene un servicio de login el cual bloquea el uso de servicios si no sé
-encuentra una sesión activada, además de esto cifra las contraseñas de los usuarios haciendo uso de la función Hash
-SHA256
+  > Nota: Recuerde que el puerto que utilice debe estar previamente permitido en los grupos de seguridad de la instancia EC2"
+  > ```
+  > docker run -d -p 42001:6000 --name dcandrescalderonacos candres1019/dockerparcialacos
+  > ```
+  
 
-### Instalación
-
-Nota: Para la instalación debe estar corriendo de manera correcta Docker
-
-1. Clonación o Descarga del Proyecto:
+1. Clonación del Proyecto:
 
     * Para **Clonar** el proyecto utilice el siguiente comando en la ventana de comandos:
 
    > ```
-   > git clone https://github.com/Candres1019/TallerArquitecturaSegura.git
+   > https://github.com/Candres1019/Parcial2-AREP.git
    > ```
-
-    * Para **Descargar** el proyecto de
-      click [aquí](https://github.com/Candres1019/TallerArquitecturaSegura/archive/refs/heads/main.zip), la descarga
-      comenzará de manera automática.
-
-   > Debería visualizar algo como lo siguiente:
-   >
-   > ![](./Img/Ins1.png)
-
+      
 2. En una ventana de comandos ejecuté el siguiente comando, dentro de la carpeta principal del proyecto:
 
    > ```
     > mvn package
     > ```
+   
 
-   > Debería visualizar algo como lo siguiente:
-   >
-   > ![](./Img/Ins2.png)
-
-
-3. Para ejecutar la aplicación de manera local utilizamos en la ventana de comandos el siguiente comando dentro del
-   directorio DockerFiles:
+3. Para ejecutar la aplicación de manera local utilizamos en la ventana de comando los siguientes comandos:
 
    > ```
-    > docker-compose up -d
+    > docker build --tag andrescalderonacos .
+    > docker run -d -p 42001:6000 --name dcandrescalderonacos andrescalderonacos
     > ```
 
-   > Debería visualizar algo como lo siguiente al inicio de la ejecución:
-   >
-   > ![](./Img/Ins3_1.png)
-   >
-   > Debería visualizar algo como lo siguiente al final de la ejecución:
-   >
-   > ![](./Img/Ins3_2.png)
 
 4. Para verificar que todo esté funcionando de manera correcta ejecutamos el siguiente comando:
 
    > ```
     > docker ps
     > ```
-
-   > Debería visualizar lo siguiente:
-   >
-   > ![](./Img/Ins4.png)
-
-5. Para ver el aplicativo web de manera local ingresamos al siguiente enlace (Se recomienda usar firefox):
+   
+5. Para utilizar la API debe acceder al path asignado a la instancia de EC2 de la siguiente manera:
 
    > ```
-    > https://localhost:5000/
+    > http://{path}:42001/exp?value={numero}
     > ```
 
-   > Debería visualizar lo siguiente:
-   >
-   > ![](./Img/Ins5.png)
 
-6. Por defecto se creó la documentación JavaDoc y fue dejada en el directorio /Javadoc, si desea generar uno nuevo
-   utilice el siguiente comando, esta documentación quedará en el directorio /target/site/apidocs :
+### Despliegue en Lambda
+
+## Generación de Documentación 
+
+Por defecto se creó la documentación JavaDoc y fue dejada en el directorio /Javadoc, si desea generar uno nuevo
+utilice el siguiente comando, esta documentación quedará en el directorio /target/site/apidocs :
 
    > ```
    > mvn javadoc:javadoc
