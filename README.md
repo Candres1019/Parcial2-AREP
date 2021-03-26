@@ -145,14 +145,6 @@ el siguiente comando, esta documentación quedará en el directorio "/target/sit
    > mvn javadoc:javadoc
    > ```
 
-## Ejecución de pruebas
-
-En una ventana de comandos, utilice el siguiente comando:
-
-   ```
-    mvn test
-   ```
-
 ## Construido Con
 
 * [Java](https://www.java.com/es/) - Lenguaje de Programación.
