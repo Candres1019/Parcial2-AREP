@@ -32,24 +32,33 @@ Adicionalmente se recomienda tener descargado los siguientes programas:
 
 ### Imágenes del funcionamiento
 
-> Aws EC2
-> 
+Aws EC2
 > Comportamiento con valores válidos:
-> 
+>
 > ![](./Img/acosEC2.png)
-> 
+>
 > Comportamiento con valores no numéricos:
-> 
+>
 > ![](./Img/acosEC21.png)
-> 
+>
 > Comportamiento con valores fuera del rango:
-> 
+>
 > ![](./Img/acosEC22.png)
+
+Lambda
+> Comportamiento con valor normal:
+>
+> ![](./Img/lambda1.png)
+>
+> Comportamiento con valor muy grande:
+>
+> ![](./Img/lambda2.png)
 
 ### Instalación en EC2
 
-Nota: Inicialmente debe tener una máquina EC2 corriendo en AWS, para facilidad de la instalación
-se tiene una imagen en DockerHub con el despliegue, haga click [aquí](https://hub.docker.com/repository/docker/candres1019/dockerparcialacos) para ir a la imagen
+Nota: Inicialmente debe tener una máquina EC2 corriendo en AWS, para facilidad de la instalación se tiene una imagen en
+DockerHub con el despliegue, haga click [aquí](https://hub.docker.com/repository/docker/candres1019/dockerparcialacos)
+para ir a la imagen
 
 * Si va a usar la imagen del proyecto desplegada en DockerHub solamente debe ejecutar el siguiente comando:
 
@@ -57,7 +66,7 @@ se tiene una imagen en DockerHub con el despliegue, haga click [aquí](https://h
   > ```
   > docker run -d -p 42001:6000 --name dcandrescalderonacos candres1019/dockerparcialacos
   > ```
-  
+
 
 1. Clonación del Proyecto:
 
@@ -66,13 +75,13 @@ se tiene una imagen en DockerHub con el despliegue, haga click [aquí](https://h
    > ```
    > https://github.com/Candres1019/Parcial2-AREP.git
    > ```
-      
+
 2. En una ventana de comandos ejecuté el siguiente comando, dentro de la carpeta principal del proyecto:
 
    > ```
     > mvn package
     > ```
-   
+
 
 3. Para ejecutar la aplicación de manera local utilizamos en la ventana de comando los siguientes comandos:
 
@@ -87,20 +96,50 @@ se tiene una imagen en DockerHub con el despliegue, haga click [aquí](https://h
    > ```
     > docker ps
     > ```
-   
+
 5. Para utilizar la API debe acceder al path asignado a la instancia de EC2 de la siguiente manera:
 
    > ```
     > http://{path}:42001/exp?value={numero}
     > ```
 
-
 ### Despliegue en Lambda
 
-## Generación de Documentación 
+Nota: Debe seguir los pasos 1 y 2 de la instalación anterior
 
-Por defecto se creó la documentación JavaDoc y fue dejada en el directorio /Javadoc, si desea generar uno nuevo
-utilice el siguiente comando, esta documentación quedará en el directorio /target/site/apidocs :
+1. Una vez en lambda en AWS deberemos encontrar el botón de crear una nueva, una vez hagamos eso daremos en la opción "
+   uploadForm" y subiremos el archivo JAR generado en el directorio /target
+
+   > ![](./Img/lambdaUp1.png)
+   
+2. Luego en la opción Runtime settings configuraremos el handler siguiente: 
+        
+    > Hanlder: co.edu.escuelaing.arep.parcial2.service.impl.CalculatorImpl::exp
+    >
+    > ![](./Img/lambdaUp2.png)
+
+3. Luego crearemos una nueva API Gateway, crearemos un recurso llamado "exp", y un nuevo método GET
+
+    > ![](./Img/lambdaUp3.png)
+
+
+4. En este método GET en la primera opción "Method Request" y agregaremos un "URL Query String Parameters" con nombre value
+
+    > ![](./Img/lambdaUp4.png)
+
+5. En la opción "Integration Request" y agregaremos un nuevo Mapping Template de la siguiente forma:
+
+    > ![](./Img/lambdaUp5.png)
+
+
+6. Finalmente le haremos deploy a la API y nos mostrará la dirección en la cual fue desplegada nuestra API
+   
+    > ![](./Img/lambdaUp6.png)    
+   
+## Generación de Documentación
+
+Por defecto se creó la documentación JavaDoc y fue dejada en el directorio "/Javadoc", si desea generar uno nuevo utilice
+el siguiente comando, esta documentación quedará en el directorio "/target/site/apidocs":
 
    > ```
    > mvn javadoc:javadoc
